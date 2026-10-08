@@ -1,0 +1,1 @@
+{"name":"six-string-tuner","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"vite --host 0.0.0.0","build":"vite build","test":"node --test","test:ui":"node scripts/verify-ui.mjs","preview":"vite preview --host 0.0.0.0"},"dependencies":{"lucide":"^0.468.0","pitchy":"^4.1.0"},"devDependencies":{"vite":"^6.0.0","@playwright/test":"^1.49.0"}}
