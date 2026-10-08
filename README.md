@@ -15,7 +15,7 @@
 
 ## 运行
 
-需要 Node.js 18 或更新版本。
+需要 Node.js 20 或更新版本。
 
 ```sh
 npm install
@@ -38,7 +38,23 @@ npm run preview
 
 一次只拨动一根弦，尽量减弱其他琴弦共振与背景噪声。自动模式依据最近的标准音选择琴弦；严重跑调、强泛音或非标准调弦时，可能匹配到其他弦，建议改用手动选弦。支持 55–450 Hz 的有效输入。
 
-当前交付为 Web APP，不是原生 Android / iOS 安装包。浏览器音频权限及设备质量会影响实际表现。
+项目同时提供浏览器版本和可安装的 Android APP。Android 版本通过 Capacitor 将界面与调音资源打包到本地，安装后无需电脑服务或网络；最低系统为 Android 8.0。音频权限及设备质量会影响实际表现。
+
+## Android 安装包
+
+生成的安装包位于 `releases/six-string-tuner-v1.0.0.apk`。将 APK 传到安卓手机后打开，允许该文件来源安装应用；首次调音时允许麦克风权限。应用名称为“弦准”，包名为 `com.curatorkim.sixstringtuner`。
+
+这是使用开发签名的可安装测试版，不是应用商店发行版。发布到商店前需使用自己的正式签名；签名密钥与 APK 产物不提交到源码仓库。测试版更新请使用同一开发签名构建。
+
+Windows 构建需要 Node.js 20+、JDK 21、Android SDK 平台 / Build Tools 35。安装依赖后运行：
+
+```powershell
+./scripts/build-android.ps1 -JdkPath '你的 JDK 21 路径' -AndroidSdkPath '你的 Android SDK 路径'
+```
+
+脚本会执行前端构建、Android 同步和 Gradle 构建，并复制 APK 到 `releases/`。也可以在 Android Studio 中打开 `android/` 工程。构建缓存放在忽略的 `.tools/gradle/`，不会改动系统 Java 配置。
+
+`scripts/verify-android.mjs` 用于专用的 `emulator-5554` 测试模拟器：先安装 debug APK，再运行 `node scripts/verify-android.mjs`。它会重置该测试应用的麦克风权限，验证系统授权、真实采集启动、合成信号的音准反馈和断网启动；结束时测试模拟器的 Wi-Fi / 数据网络处于关闭状态。不要将它用于日常手机。安装与授权已在 Android 15 模拟器上验证，实体吉他的拾音效果仍需实机测试。
 
 ## 验证
 

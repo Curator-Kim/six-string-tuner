@@ -2,6 +2,9 @@ import { createIcons, Guitar, Mic, MicOff, Volume2, Settings2, X, ArrowDown, Arr
 import { PitchDetector } from 'pitchy';
 import { STRINGS, frequencyFor, centsBetween, matchString, tuningState } from './tuning.js';
 import './style.css';
+import { Capacitor } from '@capacitor/core';
+
+if (Capacitor.isNativePlatform()) document.documentElement.classList.add('native-app');
 
 document.querySelector('#app').innerHTML = `
 <header><a class="brand" href="/"><i data-lucide="guitar"></i><span>弦准<small>SIX STRING</small></span></a><div class="header-right"><span class="local-label"><b></b> 设备端音频处理</span><button class="icon-button" id="settings" title="调音设置" aria-label="调音设置"><i data-lucide="settings-2"></i></button></div></header>

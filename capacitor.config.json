@@ -1,0 +1,7 @@
+{
+  "appId": "com.curatorkim.sixstringtuner",
+  "appName": "弦准",
+  "webDir": "dist",
+  "server": { "androidScheme": "https" },
+  "android": { "backgroundColor": "#151717", "allowMixedContent": false, "adjustMarginsForEdgeToEdge": "auto" }
+}

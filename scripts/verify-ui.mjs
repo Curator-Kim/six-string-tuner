@@ -50,6 +50,19 @@ try {
  }
  await page.setViewportSize({ width: 390, height: 844 });
  await page.screenshot({ path: '.tools/screenshots/mobile.png', fullPage: true });
+ await page.evaluate(() => document.documentElement.classList.add('native-app'));
+ for (const width of [320, 390]) {
+  await page.setViewportSize({ width, height: 844 });
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `native overflow at ${width}`);
+  const mic = await page.locator('#mic').boundingBox();
+  assert.ok(mic.y + mic.height <= 844 && mic.y > 700, 'native microphone dock');
+  assert.ok(await page.locator('.headstock').evaluate(el => {
+   const parent = el.getBoundingClientRect();
+   return [...el.querySelectorAll('.peg')].every(peg => { const rect = peg.getBoundingClientRect(); return rect.left >= parent.left - 1 && rect.right <= parent.right + 1; });
+  }), `native clipped pegs at ${width}`);
+ }
+ await page.screenshot({ path: '.tools/screenshots/android-layout.png', fullPage: true });
+ await page.evaluate(() => document.documentElement.classList.remove('native-app'));
  await page.locator('[data-string="2"]').click();
  assert.equal(await page.locator('#manual').getAttribute('aria-pressed'), 'true');
  assert.equal(await page.locator('#note').textContent(), 'B');
